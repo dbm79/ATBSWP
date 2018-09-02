@@ -17,7 +17,7 @@ emailRegEx = re.compile(r'''(
     [a-zA-Z0-9._%+-]+               # Username
     @                               # @ symbol
     [a-zA-Z0-9.-]+                  # Domain name
-    (\.[a-zA-Z{2,4}])               # dot something 
+    (\.[a-zA-Z]{2,4})               # dot something 
     )''', re.VERBOSE)
 
 # TODO: Find Mataches in clipboard text
@@ -31,5 +31,14 @@ for groups in phoneRegEx.findall(text):
     if groups[8] != '':
         phoneNum += f' x {groups[8]}'
     matches.append(phoneNum)
-print(matches)
-# TODO: Copy results to clipboard
+
+
+for groups in emailRegEx.findall(text):
+    matches.append(groups[0])
+   
+# Copy results to clipboard
+if len(matches) > 0:
+    print('\n'.join(matches))
+    pyperclip.copy('\n'.join(matches))
+else:
+    print(f'No phone numbers or emails found')
