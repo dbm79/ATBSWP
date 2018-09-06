@@ -33,6 +33,4 @@ elif len(sys.argv) == 2:
         except KeyError as e:
             print('Entry not found in database')
 
-# TODO List Keywords and Load content
-
 mcb_db.close()
