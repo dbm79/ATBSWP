@@ -1,1 +1,2 @@
-The dog panda walked to the dog and then dog. A nearby dog was unaffected by these events.
+The 1 panda walked to the 2 and then 3. A nearby 4 was
+unaffected by these events.

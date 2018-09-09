@@ -25,8 +25,8 @@ def get_contents(filename):
             while len(chunk) > 0:
                 chunk = f.read(size_to_read)
                 lines += chunk
-
-            return lines.split()
+            
+            return lines.split(' ')
     
     except EnvironmentError:
         print(f'Unable to open file {filename}')
