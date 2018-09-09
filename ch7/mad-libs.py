@@ -1,5 +1,5 @@
 # mad-libs.py
-# Searches a text file for keywords, asks a user for replacement for keyword, write results to a file
+# Searches a text file for keywords, asks a user for replacement for keyword, write results to file results.txt
 
 import sys, re
 
@@ -55,7 +55,19 @@ def print_results(contents):
         Argument: a list of strings
     '''
     print(' '.join(contents))
-    
+
+def write_results(contents):
+    ''' Write contents to a file named results.txt
+        Argument: a list of strings
+    '''
+
+    try:
+        with open('results.txt', 'w') as wf:
+            to_write = ' '.join(contents)
+            wf.write(to_write)
+            print(f'Contents written to results.txt successfully')
+    except EnvironmentError:
+        print(f'Unable to write to file.')    
 
 if len(sys.argv) <= 1:
     print_usage()
@@ -65,3 +77,5 @@ else:
     contents = replace_items(contents)          # Search contents for keywords and return replacements
 
     print_results(contents)                     # Print the results to the screen
+
+    write_results(contents)                     # Write the results to a file
