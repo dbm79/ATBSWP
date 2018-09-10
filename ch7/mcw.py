@@ -82,27 +82,31 @@ def delete_all(database):
         print(f"No keys to delete or other error")
 
 
-try:
-    with shelve.open("mcb.db") as mcb_db:
+def main():
+    try:
+        with shelve.open("mcb.db") as mcb_db:
 
-        if len(sys.argv) <= 1:
-            print_usage()
+            if len(sys.argv) <= 1:
+                print_usage()
 
-        elif len(sys.argv) == 3 and sys.argv[1].lower() == "save":
-            save_entry(mcb_db, sys.argv[2])
+            elif len(sys.argv) == 3 and sys.argv[1].lower() == "save":
+                save_entry(mcb_db, sys.argv[2])
 
-        elif len(sys.argv) == 3 and sys.argv[1].lower() == "delete":
-            delete_entry(mcb_db, sys.argv[2])
+            elif len(sys.argv) == 3 and sys.argv[1].lower() == "delete":
+                delete_entry(mcb_db, sys.argv[2])
 
-        elif len(sys.argv) == 2:
+            elif len(sys.argv) == 2:
 
-            if sys.argv[1].lower() == "list":
-                list_keys(mcb_db)
-            elif sys.argv[1].lower() == "delete-all":
-                delete_all(mcb_db)
-            else:
-                fetch_data(mcb_db, sys.argv[1])
+                if sys.argv[1].lower() == "list":
+                    list_keys(mcb_db)
+                elif sys.argv[1].lower() == "delete-all":
+                    delete_all(mcb_db)
+                else:
+                    fetch_data(mcb_db, sys.argv[1])
 
-except EnvironmentError:
-    print(f"File cannot be accessed")
+    except EnvironmentError:
+        print(f"File cannot be accessed")
 
+
+if __name__ == "__main__":
+    main()
