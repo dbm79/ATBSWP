@@ -79,15 +79,18 @@ def write_results(contents):
         print(f"Unable to write to file.")
 
 
-if len(sys.argv) <= 1:
-    print_usage()
-else:
-    contents = get_contents(sys.argv[1])  # Get the contents of the file
+def main():
+    if len(sys.argv) <= 1:
+        print_usage()
+    else:
+        contents = get_contents(sys.argv[1])
 
-    contents = replace_items(
-        contents
-    )  # Search contents for keywords and return replacements
+        contents = replace_items(contents)
 
-    print_results(contents)  # Print the results to the screen
+        print_results(contents)
 
-    write_results(contents)  # Write the results to a file
+        write_results(contents)
+
+
+if __name__ == "__main__":
+    main()
