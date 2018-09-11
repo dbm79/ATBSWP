@@ -36,14 +36,15 @@ def get_contents(filename):
         print(f"Unable to open file {filename}")
 
 
-def replace_items(contents):
+def replace_items(contents, to_match="ADJECTIVE|NOUN|VERB"):
     """ Take a list of strings and replace the string if it matches the regex NOUN, VERB, ADJECTIVE
-        Argument: list of strings
+        Argument1: list of strings
+        Argument2: A regex pattern to search for
         Returns: List of strings
     """
 
-    # Use regex to find NOUN, VERB, or ADJECTIVE
-    regex = re.compile(r"ADJECTIVE|NOUN|VERB")
+    # Use regex to match
+    regex = re.compile(to_match)
 
     for i in range(len(contents)):
         match = regex.match(contents[i])
