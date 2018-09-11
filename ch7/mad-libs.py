@@ -52,11 +52,18 @@ def replace_items(contents, to_match="ADJECTIVE|NOUN|VERB"):
         # If a match is found ask user to replace it
         if match:
             to_replace = match.group(0)
-            contents[i] = regex.sub(
-                input(f"Please enter a {to_replace.lower()}: "), contents[i]
-            )
+            contents[i] = regex.sub(get_replacement(to_replace), contents[i])
 
     return contents
+
+
+def get_replacement(item):
+    """ Asks a user input to replace the matched item
+        Argument1: String that was matched
+        Returns: String input from user
+    """
+    replacement = input(f"Please enter a {item.lower()}: ")
+    return replacement
 
 
 def print_results(contents):
