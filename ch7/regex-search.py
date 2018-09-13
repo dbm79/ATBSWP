@@ -39,6 +39,16 @@ def get_files(folder):
         sys.exit(0)
 
 
+def get_regex():
+    """ This function will read the files in the folder one-by-one
+        Returns: Compiled regex object
+    """
+    pattern = input("Please enter a regex pattern to search for: ")
+    regex = re.compile(pattern)
+    print(regex.pattern)
+    return regex
+
+
 def main():
     """ This is the main part of the program """
 
@@ -48,7 +58,22 @@ def main():
         folder = get_folder(sys.argv[1])
 
     files = get_files(folder)
-    print(files)
+
+    regex = get_regex()
+
+    os.chdir(folder)
+    for file in files:
+        with open(file, "r") as f:
+            contents = f.readlines()
+
+            for line in contents:
+                match = regex.search(line)
+                if match:
+                    print(f"\n\nMatch found on the following line:")
+                    print(line)
+
+            else:
+                print(f"No Match")
 
 
 if __name__ == "__main__":
