@@ -40,41 +40,61 @@ def get_files(folder):
 
 
 def get_regex():
-    """ This function will read the files in the folder one-by-one
+    """ This function will ask the user for a regex and create a compiled regex object
         Returns: Compiled regex object
     """
-    pattern = input("Please enter a regex pattern to search for: ")
+    pattern = input("\n\nPlease enter a regex pattern to search for: ")
     regex = re.compile(pattern)
-    print(regex.pattern)
+    # print(regex.pattern)
     return regex
 
 
-def main():
-    """ This is the main part of the program """
-
-    if len(sys.argv) <= 1:  # Make sure user entered folder as runtime argument
-        print_usage()
-    else:
-        folder = get_folder(sys.argv[1])
-
-    files = get_files(folder)
-
-    regex = get_regex()
+def find_matches(folder, files, regex):
+    """ This function will changes to the folder, open the files one-by-one
+        get their contents, try and find regex matches
+        
+        Param1: folder that contns the files to search
+        Param2: list of files to search
+        Param3: compiled regex object
+    """
 
     os.chdir(folder)
+
     for file in files:
+        matches = []
+
         with open(file, "r") as f:
             contents = f.readlines()
 
             for line in contents:
                 match = regex.search(line)
-                if match:
-                    print(f"\n\nMatch found on the following line:")
-                    print(line)
 
+                if match:
+                    matches.append(line)
+
+            if len(matches) > 0:
+                print(matches)
+                print(f"\n{len(matches)} match(s) found in file: {file}")
             else:
-                print(f"No Match")
+                print(f"No match found in file {file}")
+
+
+def main(arguments):
+    """ This is the main part of the program
+        Param1: list of argumets from sys.argv
+    """
+
+    if len(arguments) < 2:  # Make sure user entered folder as runtime argument
+        print_usage()
+    else:
+        folder = get_folder(arguments[1])
+
+        files = get_files(folder)
+
+        regex = get_regex()
+
+        find_matches(folder, files, regex)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
