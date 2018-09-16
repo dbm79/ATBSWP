@@ -6,8 +6,12 @@ import sys, re, os
 
 def print_usage():
     """ This function will print the usage information if too few command-line arguments are given """
-    print(f"Usage:")
-    # TODO: finish usage info
+    print(
+        f"""
+Usage:
+python regex-search <directroy with textfiles to search>
+    """
+    )
 
 
 def get_folder(folder):
@@ -58,23 +62,23 @@ def find_matches(folder, files, regex):
         Param3: compiled regex object
     """
 
-    os.chdir(folder)
-
     for file in files:
-        matches = []
+        matches = {}
 
-        with open(file, "r") as f:
+        with open(
+            os.path.join(folder, file), "r"
+        ) as f:  # os.path.join used to join the folder and file name
             contents = f.readlines()
 
-            for line in contents:
+            for line_num, line in enumerate(contents, 1):
                 match = regex.search(line)
 
                 if match:
-                    matches.append(line)
+                    matches[line_num] = line
 
             if len(matches) > 0:
-                print(matches)
                 print(f"\n{len(matches)} match(s) found in file: {file}")
+                print(matches)
             else:
                 print(f"No match found in file {file}")
 
