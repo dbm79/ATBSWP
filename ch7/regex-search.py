@@ -9,7 +9,7 @@ def print_usage():
     print(
         f"""
 Usage:
-python regex-search <directroy with textfiles to search>
+python regex-search <directory with text files to search>
     """
     )
 
@@ -62,25 +62,33 @@ def find_matches(folder, files, regex):
         Param3: compiled regex object
     """
 
-    for file in files:
+    for file in open_files(folder, files):
         matches = {}
 
-        with open(
-            os.path.join(folder, file), "r"
-        ) as f:  # os.path.join used to join the folder and file name
-            contents = f.readlines()
+        contents = file.readlines()
 
-            for line_num, line in enumerate(contents, 1):
-                match = regex.search(line)
+        for line_num, line in enumerate(contents, 1):
+            match = regex.search(line)
 
-                if match:
-                    matches[line_num] = line
+            if match:
+                matches[line_num] = line
 
-            if len(matches) > 0:
-                print(f"\n{len(matches)} match(s) found in file: {file}")
-                print(matches)
-            else:
-                print(f"No match found in file {file}")
+        if len(matches) > 0:
+            print(f"\n{len(matches)} match(s) found in file: {file.name}")
+            print(matches)
+        else:
+            print(f"No match found in file {file.name}")
+
+
+def open_files(folder, files):
+    """ This function is a generator that will open a file for reading and return a file object
+        Param1: string for the folder that contains the files
+        Param2: list of files
+        Yields: a file object in read mode
+    """
+
+    for file in files:
+        yield open(os.path.join(folder, file), "r")
 
 
 def main(arguments):
