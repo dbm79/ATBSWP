@@ -77,9 +77,7 @@ def find_matches(folder, regex):
     for file in open_files(folder):
         matches = {}
 
-        contents = file.readlines()
-
-        for line_num, line in enumerate(contents, 1):
+        for line_num, line in get_line(file):
             match = regex.search(line)
 
             if match:
@@ -93,8 +91,15 @@ def find_matches(folder, regex):
 
 
 def get_line(file):
-    """ This function will read one line at a time from a file and return it."""
-    pass
+    """ This function will read all of the file's lines return a single lime with its index + 1.
+        Param1: A file object
+        Yields: Enumerated index+1 and the line itself
+    """
+
+    contents = file.readlines()
+
+    for line_num, line in enumerate(contents, 1):
+        yield line_num, line
 
 
 def main(arguments):
