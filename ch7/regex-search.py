@@ -30,50 +30,51 @@ def get_folder(folder):
             )
 
 
-def get_files(folder):
-    """ This function will get all the files names in the folder
-        Param1: folder to get files from
-        Returns: list of file names
-    """
-    files = os.listdir(folder)
-    if len(files) > 0:
-        return files
-    else:
-        print(f"No files found in folder")
-        sys.exit(0)
-
-
-def open_files(folder, files):
-    """ This function is a generator that will open a file for reading and return a file object
-        Param1: string for the folder that contains the files
-        Param2: list of files
-        Yields: a file object in read mode
-    """
-
-    for file in files:
-        yield open(os.path.join(folder, file), "r")
-
-
 def get_regex():
     """ This function will ask the user for a regex and create a compiled regex object
         Returns: Compiled regex object
     """
     pattern = input("\n\nPlease enter a regex pattern to search for: ")
     regex = re.compile(pattern)
-    # print(regex.pattern)
+
     return regex
 
 
-def find_matches(folder, files, regex):
+def get_files(folder):
+    """ This function/generator will get all the files names in the folder and yeild one file at a time
+        it will exit if no exit if no files found.
+        Param1: folder to get files from
+        Yields: file name
+    """
+    files = os.listdir(folder)
+
+    if len(files) > 0:
+        for file in files:
+            yield file
+    else:
+        print(f"No files found in folder: {folder}")
+        sys.exit(0)
+
+
+def open_files(folder):
+    """ This function is a generator that will open a file for reading and return a file object
+        Param1: string for the folder that contains the files
+        Yields: a file object in read mode
+    """
+
+    for file in get_files(folder):
+        yield open(os.path.join(folder, file), "r")
+
+
+def find_matches(folder, regex):
     """ This function will changes to the folder, open the files one-by-one
         get their contents, try and find regex matches
         
         Param1: folder that contns the files to search
-        Param2: list of files to search
-        Param3: compiled regex object
+        Param2: compiled regex object
     """
 
-    for file in open_files(folder, files):
+    for file in open_files(folder):
         matches = {}
 
         contents = file.readlines()
@@ -91,6 +92,11 @@ def find_matches(folder, files, regex):
             print(f"No match found in file {file.name}")
 
 
+def get_line(file):
+    """ This function will read one line at a time from a file and return it."""
+    pass
+
+
 def main(arguments):
     """ This is the main part of the program
         Param1: list of argumets from sys.argv
@@ -99,13 +105,12 @@ def main(arguments):
     if len(arguments) < 2:  # Make sure user entered folder as runtime argument
         print_usage()
     else:
-        folder = get_folder(arguments[1])
 
-        files = get_files(folder)
+        folder = get_folder(arguments[1])
 
         regex = get_regex()
 
-        find_matches(folder, files, regex)
+        find_matches(folder, regex)
 
 
 if __name__ == "__main__":
