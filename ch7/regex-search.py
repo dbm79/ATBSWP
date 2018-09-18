@@ -43,6 +43,17 @@ def get_files(folder):
         sys.exit(0)
 
 
+def open_files(folder, files):
+    """ This function is a generator that will open a file for reading and return a file object
+        Param1: string for the folder that contains the files
+        Param2: list of files
+        Yields: a file object in read mode
+    """
+
+    for file in files:
+        yield open(os.path.join(folder, file), "r")
+
+
 def get_regex():
     """ This function will ask the user for a regex and create a compiled regex object
         Returns: Compiled regex object
@@ -78,17 +89,6 @@ def find_matches(folder, files, regex):
             print(matches)
         else:
             print(f"No match found in file {file.name}")
-
-
-def open_files(folder, files):
-    """ This function is a generator that will open a file for reading and return a file object
-        Param1: string for the folder that contains the files
-        Param2: list of files
-        Yields: a file object in read mode
-    """
-
-    for file in files:
-        yield open(os.path.join(folder, file), "r")
 
 
 def main(arguments):
