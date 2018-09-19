@@ -14,8 +14,8 @@ python regex-search <directory with text files to search>
     )
 
 
-def get_folder(folder):
-    """ This function will get the folder-name relative to current path from the user and verify it exists
+def check_folder(folder):
+    """ This function will check the folder relative to current path verify it exists
         Param1: folder name to verify
         Returns: folder name
     """
@@ -66,6 +66,18 @@ def open_files(folder):
         yield open(os.path.join(folder, file), "r")
 
 
+def get_line(file):
+    """ This function will read all of the file's lines return a single lime with its index + 1.
+        Param1: A file object
+        Yields: Enumerated index+1 and the line itself
+    """
+
+    contents = file.readlines()
+
+    for line_num, line in enumerate(contents, 1):
+        yield line_num, line
+
+
 def find_matches(folder, regex):
     """ This function will changes to the folder, open the files one-by-one
         get their contents, try and find regex matches
@@ -90,18 +102,6 @@ def find_matches(folder, regex):
             print(f"No match found in file {file.name}")
 
 
-def get_line(file):
-    """ This function will read all of the file's lines return a single lime with its index + 1.
-        Param1: A file object
-        Yields: Enumerated index+1 and the line itself
-    """
-
-    contents = file.readlines()
-
-    for line_num, line in enumerate(contents, 1):
-        yield line_num, line
-
-
 def main(arguments):
     """ This is the main part of the program
         Param1: list of argumets from sys.argv
@@ -111,7 +111,7 @@ def main(arguments):
         print_usage()
     else:
 
-        folder = get_folder(arguments[1])
+        folder = check_folder(arguments[1])
 
         regex = get_regex()
 
