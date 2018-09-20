@@ -1,7 +1,9 @@
 #! python3
 # regex-search.py - searches files in a folder for matches to a user provided regex
 
-import sys, re, os
+import sys
+import re
+import os
 
 
 def print_usage():
@@ -81,7 +83,7 @@ def get_line(file):
 def find_matches(folder, regex):
     """ This function will changes to the folder, open the files one-by-one
         get their contents, try and find regex matches
-        
+
         Param1: folder that contns the files to search
         Param2: compiled regex object
     """

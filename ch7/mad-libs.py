@@ -1,7 +1,8 @@
 # mad-libs.py
 # Searches a text file for keywords, asks a user for replacement for keyword, write results to file results.txt
 
-import sys, re
+import sys
+import re
 
 
 def print_usage():
