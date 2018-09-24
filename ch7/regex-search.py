@@ -44,7 +44,7 @@ def get_regex():
 
 def get_files(folder):
     """ This function/generator will get all the files names in the folder and yeild one file at a time
-        it will exit if no exit if no files found.
+        it will exit if no files found.
         Param1: folder to get files from
         Yields: file name
     """
@@ -81,8 +81,8 @@ def get_line(file):
 
 
 def find_matches(folder, regex):
-    """ This function will changes to the folder, open the files one-by-one
-        get their contents, try and find regex matches
+    """ This function will change to the folder, open the files one-by-one,
+        get their contents, and try to find regex matches
 
         Param1: folder that contns the files to search
         Param2: compiled regex object
