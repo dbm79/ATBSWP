@@ -26,11 +26,33 @@ def get_req(search_string):
 
 
 def get_links(req):
+    ''' Will create a BeatifulSoup object from a web request, parse the HTML text,
+        and attempt to get the links.
+
+        Keyword arguments:
+        req -- a request object
+
+        Returns:
+        links -- a BeatifulSoup select object of links
+    '''
 
     soup = bs4.BeautifulSoup(req.text, 'html.parser')
     links = soup.select('.r a')
 
     return links
+
+
+def open_links(links):
+    ''' Opens at most 5 links in the user's browser
+
+        Keyword arguments:
+        links -- BeatifulSoup select objec tthat has list of links found
+    '''
+
+    to_open = min(5, len(links))
+
+    for i in range(to_open):
+        webbrowser.open(f"https://www.google.com/{links[i].get('href')}")
 
 
 def main(args):
@@ -39,11 +61,7 @@ def main(args):
 
     links = get_links(request)
 
-    # Open browser for each link
-    to_open = min(5, len(links))
-
-    for i in range(to_open):
-        webbrowser.open(f"https://www.google.com/{links[i].get('href')}")
+    open_links(links)
 
 
 if __name__ == '__main__':
