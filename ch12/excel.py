@@ -19,6 +19,15 @@ def main():
         print(i, sheet.cell(row=i, column=2).value,
               sheet.cell(row=i, column=3).value)
 
+    rows = tuple(sheet['A1':'C6'])
+
+    for row_objects in rows:
+        for cell_object in row_objects:
+            print(cell_object.coordinate, cell_object.value)
+        print(f'<---END OF ROW--->\n')
+
+    wb.close()
+
 
 if __name__ == '__main__':
     main()
