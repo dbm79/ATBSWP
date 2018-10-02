@@ -45,7 +45,7 @@ def get_row_data(sheet):
         county_data[state][county]['tracts'] += 1
         county_data[state][county]['pop'] += int(population)
 
-    print(county_data['OH'])
+    pprint.pprint(county_data)
 
 
 def main():
