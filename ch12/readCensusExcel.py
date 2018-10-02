@@ -36,7 +36,16 @@ def get_row_data(sheet):
         county = sheet['C' + str(row)].value
         population = sheet['D' + str(row)].value
 
-        pprint.pprint(state + ': ' + str(population))
+        # Make sure the state key exists, if not create it
+        county_data.setdefault(state, {})
+
+        # Make sure county exists for each state, if not create it
+        county_data[state].setdefault(county, {'tracts': 0, 'pop': 0})
+
+        county_data[state][county]['tracts'] += 1
+        county_data[state][county]['pop'] += int(population)
+
+    print(county_data['OH'])
 
 
 def main():
@@ -45,7 +54,7 @@ def main():
     print('Opening the workbook...')
     wb = open_wb()
 
-    sheet = wb.get_active_sheet()
+    sheet = wb.active   # gets the active sheet
     get_row_data(sheet)
 
     wb.close()
