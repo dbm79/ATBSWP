@@ -45,7 +45,20 @@ def get_row_data(sheet):
         county_data[state][county]['tracts'] += 1
         county_data[state][county]['pop'] += int(population)
 
-    pprint.pprint(county_data)
+    return county_data
+
+
+def write_data(data):
+    ''' This function will write the data to a file in a python format using pprint module.
+
+        Arguments:
+        data -- dictionary containing the data to be written to the file
+    '''
+
+    print("Writing data to file...")
+
+    with open('census2010_data.py', 'w') as f:
+        f.write(f"all_data = {pprint.pformat(data)}")
 
 
 def main():
@@ -55,7 +68,9 @@ def main():
     wb = open_wb()
 
     sheet = wb.active   # gets the active sheet
-    get_row_data(sheet)
+    data = get_row_data(sheet)
+
+    write_data(data)
 
     wb.close()
 
